@@ -9,13 +9,13 @@ A IA conversa com o usuário, coleta as informações e envia para o backend (Dj
 
 ## 🔗 Links públicos
 
-- **IA (teste do avaliador):**  
+- **IA/Assistente Virtual:**  
   https://rita.verbeux.com.br/generative/5e274114-4504-4f1a-b15e-7e4edf83683d
 
-- **Tabela de Feedbacks / Success (Render – plano free):**  
+- **Tabela de Feedbacks / Success:**  
   https://verboo-test.onrender.com/feedbacks/success/  
   > ⚠️ Nota: este serviço está no **Render (free)** e pode estar **hibernando** quando você abrir.  
-  > Se isso ocorrer, a página pode demorar alguns segundos para “acordar”. Abra o link e aguarde o carregamento.
+  > Se isso ocorrer, a página pode demorar alguns segundos para “acordar”, é normal que o render carregue a página duas vezes também. Abra o link e aguarde os carregamentos.
 
 ---
 
@@ -144,10 +144,10 @@ A IA conversa com o usuário, coleta as informações e envia para o backend (Dj
 
 ---
 
-## 🔒 Observações de segurança
-- Não comitar **`db.sqlite3`** ao repositório (use `.gitignore`).  
-- Armazenar **`SECRET_KEY`** e **`DATABASE_URL`** apenas em **variáveis de ambiente**.  
-- Ao criar usuário admin para demonstração, utilize credenciais **de teste**.
+## Considerações finais ✅
+Achei muito interessante fazer parte desse projeto, tive um grande aprendizado na área de criação de assistentes virtuais, utilização de python e frameworks,
+deploy, bancos de dados e outras implementações que utilizei durante a fase de testes do meu programa e a fase final. Busquei deixar o resultado mais intuitivo possível
+e espero que gostem do resultado, me dediquei bastante ao projeto e espero trazer resultados com esta aplicação.
 
 ---
 
