@@ -11,14 +11,12 @@ import json, os, hmac, hashlib, logging
 
 logger = logging.getLogger(__name__)
 
-# ========= Formulário simples para testes manuais =========
 def submit_feedback(request):
     if request.method == "POST":
         form = FeedbackForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
 
-            # Se vier sem franchise, tenta extrair da mensagem
             if not getattr(obj, "franchise", ""):
                 try:
                     obj.franchise = extract_franchise(obj.message) or ""
@@ -48,14 +46,12 @@ def feedback_success(request):
     return render(request, "feedbacks/feedback_success.html", context)
 
 
-# ========= Webhook (tolerante e com fallback) =========
 @csrf_exempt
 def verboo_webhook(request):
     if request.method != "POST":
         return JsonResponse({"error": "method_not_allowed"}, status=405)
 
     raw_body = request.body or b""
-    # (Opcional) Verificação de assinatura HMAC: só valida se ambas existirem
     secret = os.getenv("VERBOO_WEBHOOK_SECRET")
     signature = request.headers.get("X-Verboo-Signature")
     if secret and signature:
@@ -63,7 +59,6 @@ def verboo_webhook(request):
         if not hmac.compare_digest(digest, signature):
             return HttpResponseBadRequest("invalid signature")
 
-    # Tenta JSON; se falhar, aceita application/x-www-form-urlencoded
     payload = {}
     if raw_body:
         try:
@@ -73,11 +68,9 @@ def verboo_webhook(request):
     else:
         payload = request.POST.dict()
 
-    # Normaliza chaves -> minúsculas e valores -> string
     norm = {str(k).strip().lower(): (v if isinstance(v, str) else str(v))
             for k, v in payload.items()}
 
-    # Campos vindos da plataforma (aceita variações)
     message = (norm.get("message") or norm.get("text") or "").strip()
     if not message:
         return HttpResponseBadRequest("message is required")
@@ -99,7 +92,6 @@ def verboo_webhook(request):
         ""
     ).strip().lower()
 
-    # Mapeia rótulos comuns pt/en para o modelo
     map_table = {
         "elogio": "compliment", "compliment": "compliment", "praise": "compliment",
         "reclamacao": "complaint", "reclamação": "complaint", "complaint": "complaint",
@@ -108,14 +100,12 @@ def verboo_webhook(request):
     }
     ftype = map_table.get(classification)
 
-    # Fallback para seu classificador local
     if not ftype:
         try:
             ftype = classify_feedback(message)
         except Exception:
             ftype = "unclassified"
 
-    # SALVA no banco
     fb = Feedback.objects.create(
         name=name,
         email=email,
@@ -124,11 +114,9 @@ def verboo_webhook(request):
         **({"franchise": franchise} if "franchise" in [f.name for f in Feedback._meta.fields] else {})
     )
 
-    # Log útil no terminal para conferir
     logger.info("WEBHOOK OK -> id=%s type=%s franchise=%s payload=%s", fb.id, ftype, franchise, payload)
     print("WEBHOOK OK -> id:", fb.id, "| type:", ftype, "| franchise:", franchise)  # redundância visível no runserver
 
-    # Resposta para a plataforma
     pt = "elogio" if ftype == "compliment" else ("reclamação" if ftype == "complaint" else ftype)
     reply = f"Obrigado! Classifiquei seu feedback como **{pt}** e registrei (ID {fb.id})."
 
@@ -141,5 +129,4 @@ def verboo_webhook(request):
     })
 
 
-# Alias para compatibilidade se sua URL antiga apontava para 'webhook_verboo'
 webhook_verboo = verboo_webhook

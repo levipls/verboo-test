@@ -7,7 +7,7 @@ class Feedback(models.Model):
 
     name = models.CharField(max_length=120)
     email = models.EmailField()
-    franchise = models.CharField(max_length=120, blank=True)  # novo
+    franchise = models.CharField(max_length=120, blank=True) 
     message = models.TextField()
     feedback_type = models.CharField(
         max_length=10,
