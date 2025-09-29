@@ -26,6 +26,7 @@ A IA conversa com o usuário, coleta as informações e envia para o backend (Dj
    - Responda às perguntas que a IA fizer (mensagem, nome, e-mail, etc.).  
 3. Abra a **Tabela de Feedbacks**: https://verboo-test.onrender.com/feedbacks/success/  
    - **Atualize a página** após enviar cada feedback para ver o novo registro.
+
 4 (Opcional). Caso queira fazer um teste manual abra o Formulário de Feedbacks (Não utiliza IA mas aplica a mesma instrução de classificação de feedbacks):
   - https://verboo-test.onrender.com/feedbacks/
 
