@@ -3,6 +3,10 @@
 Assistente de IA que coleta **feedbacks** de usuários e registra as respostas em uma tabela pública.  
 A IA conversa com o usuário, coleta as informações e envia para o backend (Django), que **classifica** e **salva** o feedback.
 
+## ⚠️ Aviso
+- Você não precisa baixar o código-fonte para realizar testes da minha aplicação, apenas acessar os links da aba Rota de testes.
+- Lembre-se de **atualizar a página da Tabela de Feedbacks toda vez em que realizar um novo feedback**.
+
 ## 🔗 Links públicos
 
 - **IA (teste do avaliador):**  
@@ -18,10 +22,12 @@ A IA conversa com o usuário, coleta as informações e envia para o backend (Dj
 ## ✅ Rota de teste (super simples)
 
 1. Abra a **IA**: https://rita.verbeux.com.br/generative/5e274114-4504-4f1a-b15e-7e4edf83683d  
-2. Fale algo como: **“Quero fazer um feedback.”**  
+2. Fale algo como: **“Olá, gostaria de fazer um feedback.”**  
    - Responda às perguntas que a IA fizer (mensagem, nome, e-mail, etc.).  
 3. Abra a **Tabela de Feedbacks**: https://verboo-test.onrender.com/feedbacks/success/  
    - **Atualize a página** após enviar cada feedback para ver o novo registro.
+4 (Opcional). Caso queira fazer um teste manual abra o Formulário de Feedbacks (Não utiliza IA mas aplica a mesma instrução de classificação de feedbacks):
+  - https://verboo-test.onrender.com/feedbacks/
 
 > Dica: a listagem mostra contagem total e últimas entradas. Se você quiser ver o formulário manual do backend (sem IA), acesse:  
 > `https://verboo-test.onrender.com/feedbacks/` → envie → confira em `/feedbacks/success/`.
@@ -93,35 +99,6 @@ A IA conversa com o usuário, coleta as informações e envia para o backend (Dj
   - Postgres (DATABASE_URL)
   - WhiteNoise para estáticos
   - Variáveis de ambiente configuradas no Render (ver abaixo)
-
-- **Execução local (opcional para dev):**
-  - Python 3.12+
-  - `pip`, `venv`
-  - SQLite (padrão) ou Postgres (via `DATABASE_URL`)
-
----
-
-## ▶️ Execução local (opcional)
-
-```bash
-# 1) criar venv e instalar deps
-python -m venv .venv
-# Windows: .\.venv\Scriptsctivate
-# Linux/Mac: source .venv/bin/activate
-pip install -r requirements.txt
-
-# 2) (opcional) variáveis locais
-# no padrão, roda com SQLite; se quiser Postgres, exporte DATABASE_URL
-
-# 3) migrações e runserver
-python manage.py migrate
-python manage.py runserver
-
-# 4) testar
-# Form:       http://127.0.0.1:8000/feedbacks/
-# Success:    http://127.0.0.1:8000/feedbacks/success/
-# Webhook:    POST http://127.0.0.1:8000/feedbacks/api/webhook/verboo/
-```
 
 ---
 
