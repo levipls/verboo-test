@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Feedbacks</title>
+</head>
+<body>
+    <h1>Feedbacks recebidos</h1>
+    <ul>
+        {% for fb in feedbacks %}
+            <li>
+                <strong>{{ fb.name }}</strong> ({{ fb.email }})<br>
+                {{ fb.message }}<br>
+                <em>Enviado em {{ fb.created_at }}</em>
+            </li>
+        {% empty %}
+            <li>Nenhum feedback recebido ainda.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

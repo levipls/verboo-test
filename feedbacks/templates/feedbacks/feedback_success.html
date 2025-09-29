@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <title>Feedbacks — Sucesso</title>
+    <style>
+      body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
+      .cards { display: flex; gap: 16px; margin-bottom: 24px; }
+      .card { padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+      th { text-align: left; background: #fafafa; }
+      .type.bad { color: #c0392b; font-weight: 600; }
+      .type.good { color: #2e7d32; font-weight: 600; }
+      .muted { color: #666; font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <h1>Feedback registrado com sucesso 🎉</h1>
+
+    <div class="cards">
+      <div class="card"><strong>Total:</strong> {{ totals.total|default:0 }}</div>
+      <div class="card"><strong>Elogios:</strong> {{ totals.compliments|default:0 }}</div>
+      <div class="card"><strong>Reclamações:</strong> {{ totals.complaints|default:0 }}</div>
+    </div>
+
+    <h2>Lista de feedbacks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome / Email</th>
+          <th>Franquia</th>
+          <th>Mensagem</th>
+          <th>Tipo</th>
+          <th>Criado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fb in feedbacks %}
+          <tr>
+            <td>{{ fb.id }}</td>
+            <td>
+              <div><strong>{{ fb.name }}</strong></div>
+              <div class="muted">{{ fb.email }}</div>
+            </td>
+            <td>{{ fb.franchise|default:"—" }}</td>
+            <td>{{ fb.message }}</td>
+            <td>
+              {% if fb.feedback_type == "complaint" %}
+                <span class="type bad">Reclamação</span>
+              {% else %}
+                <span class="type good">Elogio</span>
+              {% endif %}
+            </td>
+            <td class="muted">{{ fb.created_at }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="6">Nenhum feedback ainda.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p style="margin-top:20px;">
+      <a href="{% url 'feedbacks:submit_feedback' %}">Enviar outro feedback</a> |
+      <a href="{% url 'admin:index' %}">Abrir o Admin</a>
+    </p>
+  </body>
+</html>
